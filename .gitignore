@@ -1,0 +1,7 @@
+_Store
+*~
+*.gem
+*.swp
+pkg
+bin
+.metadata
