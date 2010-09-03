@@ -22,20 +22,33 @@ module RPositivity
   class RPositivity
     TEST_URL = "https://test.ipg-online.com/connect/gateway/processing" 
 
-    def initialize(chargetotal, storename, sharedSecret, args = {})
-      @chargetotal = "%.2f" % chargetotal
+    def initialize(storename, sharedSecret, args = {}, &block)
+      @chargetotal = "0.00"
+      @date = DateTime.now
       @currency = Currency::EURO
       @storename = storename
       @sharedSecret = sharedSecret
-      @date = args[:date] || DateTime.now  
       @txntype = args[:txntype] || TxnType::SALE
       @mode = args[:mode] || Mode::PAYONLY
       @responseSuccessURL = args[:responseSuccessURL] || ""
       @responseFailURL = args[:responseFailURL] || ""
+      instance_eval &block if block_given?
     end
   
     def url
       TEST_URL
+    end
+
+    def for(chargetotal, date = DateTime.now)
+      RPositivity.new(@storename, @sharedSecret, 
+                        :txntype => @txntype,
+                        :mode => @mode,
+                        :responseSuccessURL => @responseSuccessURL,
+                        :responseFailURL => @responseFailURL) do
+        @chargetotal = "%.2f" % chargetotal
+        @date = date
+        p "aaa"
+      end
     end
 
     def params
