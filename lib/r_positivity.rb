@@ -47,7 +47,6 @@ module RPositivity
                         :responseFailURL => @responseFailURL) do
         @chargetotal = "%.2f" % chargetotal
         @date = date
-        p "aaa"
       end
     end
 
